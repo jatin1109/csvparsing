@@ -27,11 +27,11 @@ while(path==""):
         break
 
     def RepresentsInt(s):
-    try: 
-        float(s)
-        return True
-    except ValueError:
-        return False
+        try: 
+            float(s)
+            return True
+        except ValueError:
+            return False
       
     file = csv.reader(open(path))
     list_of_lists_as_rows = [] 
