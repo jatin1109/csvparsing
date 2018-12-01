@@ -14,6 +14,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if(re.match(r'/graph.html.*',self.path) != None):
             path = re.findall(r'(?<=/graph.html\?path=).*', self.path)[0]
         return http.server.SimpleHTTPRequestHandler.do_GET(self)
+    def log_message(self, format, *args):
+        return
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print("serving at port", PORT)
@@ -24,7 +26,7 @@ while(path==""):
         file = csv.reader(open(path))
     except:
         path=""
-        break
+        continue
 
     def RepresentsInt(s):
     try: 
