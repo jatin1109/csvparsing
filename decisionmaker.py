@@ -19,9 +19,9 @@ def decisionmaker(list_by_col, list_by_row):
     cols_num = len(list_by_col)
     if cols_num == 1:
         if columnanalyser(list_by_col[0]) == "ints" or "floats":
-            create_histogram(list_by_col, 0)
+            create_histogram(list_by_col[0], list_by_row[0][0])
         elif columnanalyser(list_by_col[0]) == "strings":
-            create_bargraph(list_by_col, 0)
+            create_bargraph(list_by_col[0], list_by_row[0][0])
         else:
             print("shit")
 
