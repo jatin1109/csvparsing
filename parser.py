@@ -41,9 +41,9 @@ while(path==""):
     no_of_columns = 0
     for row in file:
         row1 = row
-        for i in row1:
-            if RepresentsInt(i):
-                i = float(i)
+        for i in rangle(len(row1)):
+            if RepresentsInt(row1[i]):
+                row1[i] = float(row1[i])
         list_of_lists_as_rows.append(row1)
         no_of_columns = len(row)
 
