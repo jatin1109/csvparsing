@@ -11,7 +11,7 @@ from numpy.polynomial.polynomial import polyfit
 
 path = ""
 PORT = 8080
-
+no_of_graphs = 1
 
 def cleartmp():
     dirPath = os.path.realpath(__file__).replace("parser.py", "tmp")
@@ -42,8 +42,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             file = csv.reader(open(path))
             list_of_lists_as_rows = []
             list_of_lists_as_columns = []
-            
-            no_of_graphs = 0
             
             no_of_columns = 0
             for row in file:
@@ -78,7 +76,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 no_of_graphs += 1
                 plt.hist(x_values)
                 plt.xlabel(x_label)
-                plt.savefig('tmp\image' + no_of_graphs + '.png')
+                plt.savefig('tmp\image' + str(no_of_graphs) + '.png')
 
             def create_bargraph(col):
                 x_label = col[0]
@@ -95,7 +93,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 plt.bar(range(x_count), frequency, width = 0.5)
                 plt.xlabel(x_values)
                 plt.ylabel(x_label)
-                plt.savefig('tmp\image' + no_of_graphs + '.png')
+                plt.savefig('tmp\image' + str(no_of_graphs) + '.png')
                 
             def create_scatterplot(col1, col2):
                 x_label = col1[0]
@@ -109,7 +107,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 #plt.plot(x_values, b + m*x_values)
                 plt.xlabel(x_label)
                 plt.ylabel(y_label)
-                plt.savefig('tmp\image' + no_of_graphs + '.png')
+                plt.savefig('tmp\image' + str(no_of_graphs) + '.png')
 
             #decisionmaker
 
@@ -132,7 +130,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
             def decisionmaker(list_by_col, list_by_row):
                 cols_num = len(list_by_col)
-
+                global no_of_graphs
+                no_of_graphs = 0
                 if cols_num == 1:
                     if ca(list_by_col[0]) == "ints" or "floats":
                         col = list_by_col[0]
@@ -152,6 +151,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         col1.insert(0, list_by_row[0][1])
                         col2 = list_by_col[0]
                         col2.insert(0, list_by_row[0][0])
+                        cleartmp()
+                        plt.clf()
                         create_bargraph_two(col1, col2)
                     # first text, second numbers
                     elif (ca(list_by_col[1]) == "ints" or "floats" and ca(list_by_col[0]) == "strings"):
@@ -159,6 +160,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         col1.insert(0, list_by_row[0][0])
                         col2 = list_by_col[1]
                         col2.insert(0, list_by_row[0][1])
+                        cleartmp()
+                        plt.clf()
                         create_bargraph_two(col1, col2)
                     # both numbers
                     elif (ca(list_by_col[1]) == "ints" or "floats" and ca(list_by_col[0]) == "ints" or "floats"):
@@ -166,7 +169,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         col1.insert(0, list_by_row[0][0])
                         col2 = list_by_col[1]
                         col2.insert(0, list_by_row[0][1])
-                        create_scatterplot(col1, col2) 
+                        cleartmp()
+                        plt.clf()
+                        create_scatterplot(col1, col2)
+                        plt.clf()
                         create_scatterplot(col2, col1)
                     else:
                         print("whoops")
