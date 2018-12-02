@@ -41,6 +41,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             file = csv.reader(open(path))
             list_of_lists_as_rows = []
             list_of_lists_as_columns = []
+            
+            no_of_graphs = 0
+            
             no_of_columns = 0
             for row in file:
                 row1 = row
@@ -67,22 +70,29 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             print(list_of_lists_as_columns)
 
             # graphmaker
-            def create_histogram(col, labell):
-                plt.hist(col)
-                plt.xlabel(labell)
-                plt.savefig('tmp\image.png')
+            def create_histogram(col):
+                x_label = col[0]
+                x_values = col[1:]
+                no_of_graphs += 1
+                plt.hist(x_values)
+                plt.xlabel(x_label)
+                plt.savefig('tmp\image' + no_of_graphs + '.png')
 
-            def create_bargraph(col, labell):
+            def create_bargraph(col):
+                x_label = col[0]
+                x_values1 = col[1:]
+                no_of_graphs += 1
                 frequency = []
                 x_values = []
-                for n in col:
+                for n in x_values1:
                     if n not in x_values:
-                        frequency.append(col.count(n))
+                        frequency.append(x_values1.count(n))
                         x_values.append(n)
                 x_count = len(x_values)
                 plt.bar(range(x_count), frequency)
                 plt.xlabel(x_values)
-                plt.savefig('tmp\image.png')
+                plt.ylabel(x_label)
+                plt.savefig('tmp\image' + no_of_graphs + '.png')
 
             # decisionmaker
 
@@ -105,11 +115,16 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
             def decisionmaker(list_by_col, list_by_row):
                 cols_num = len(list_by_col)
+
                 if cols_num == 1:
                     if columnanalyser(list_by_col[0]) == "ints" or "floats":
-                        create_histogram(list_by_col[0], list_by_row[0][0])
+                        col = list_by_col[0]
+                        col.insert(0, list_by_row[0][0])
+                        create_histogram(col)
                     elif columnanalyser(list_by_col[0]) == "strings":
-                        create_bargraph(list_by_col[0], list_by_row[0][0])
+                        col = list_by_col[0]
+                        col.insert(0, list_by_row[0][0]) 
+                        create_bargraph(col)
                     else:
                         print("shit")
             cleartmp()
