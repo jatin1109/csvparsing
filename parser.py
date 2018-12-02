@@ -5,9 +5,20 @@ import http.server
 import socketserver
 import re
 import urllib.parse
+import shutil
+import os
 
 path = ""
 PORT = 8080
+
+
+def cleartmp():
+    dirPath = os.path.realpath(__file__).replace("parser.py", "tmp")
+    fileList = os.listdir(dirPath)
+    for fileName in fileList:
+        if (fileName != "file"):
+            os.remove(dirPath + "/" + fileName)
+cleartmp()
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
@@ -101,7 +112,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         create_bargraph(list_by_col[0], list_by_row[0][0])
                     else:
                         print("shit")
-
+            cleartmp()
             decisionmaker(list_of_lists_as_columns, list_of_lists_as_rows)
         return http.server.SimpleHTTPRequestHandler.do_GET(self)
     def log_message(self, format, *args):
