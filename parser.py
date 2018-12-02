@@ -102,6 +102,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 x_values = col1[1:]
                 y_label = col2[0]
                 y_values = col2[1:]
+                global no_of_graphs
                 no_of_graphs += 1
                 #b,m = polyfit(x_values, y_values, 1)
                 plt.scatter(x_values, y_values)
