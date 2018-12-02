@@ -110,39 +110,65 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 plt.ylabel(y_label)
                 plt.savefig('tmp\image' + no_of_graphs + '.png')
 
-            # decisionmaker
+            #decisionmaker
 
-            def columnanalyser(col):
-
+            def ca(col):
+                #column analysis
                 if all(type(i) is int for i in col):
-                    return ("ints")
+                    return("ints")
                 elif all(type(i) is float for i in col):
-                    return ("floats")
+                    return("floats")
                 elif all(type(i) is str for i in col):
-                    return ("strings")
+                    return("strings")
                 else:
-                    return ("shit")
+                    return("shit")
 
             def coltypes(list_by_col):
                 list_types = []
                 for col in list_by_col:
-                    list_types.append(columnanalyser(col))
+                    list_types.append(ca(col))
                 print(list_types)
 
             def decisionmaker(list_by_col, list_by_row):
                 cols_num = len(list_by_col)
 
                 if cols_num == 1:
-                    if columnanalyser(list_by_col[0]) == "ints" or "floats":
+                    if ca(list_by_col[0]) == "ints" or "floats":
                         col = list_by_col[0]
                         col.insert(0, list_by_row[0][0])
                         create_histogram(col)
-                    elif columnanalyser(list_by_col[0]) == "strings":
+                    elif ca(list_by_col[0]) == "strings":
                         col = list_by_col[0]
                         col.insert(0, list_by_row[0][0]) 
                         create_bargraph(col)
                     else:
-                        print("shit")
+                        print("whooops")
+
+                elif cols_num == 2:
+                    # first numbers, second text
+                    if (ca(list_by_col[0]) == "ints" or "floats" and ca(list_by_col[1]) == "strings"):
+                        col1 = list_by_col[1]
+                        col1.insert(0, list_by_row[0][1])
+                        col2 = list_by_col[0]
+                        col2.insert(0, list_by_row[0][0])
+                        create_bargraph_two(col1, col2)
+                    # first text, second numbers
+                    elif (ca(list_by_col[1]) == "ints" or "floats" and ca(list_by_col[0]) == "strings"):
+                        col1 = list_by_col[0]
+                        col1.insert(0, list_by_row[0][0])
+                        col2 = list_by_col[1]
+                        col2.insert(0, list_by_row[0][1])
+                        create_bargraph_two(col1, col2)
+                    # both numbers
+                    elif (ca(list_by_col[1]) == "ints" or "floats" and ca(list_by_col[0]) == "ints" or "floats"):
+                        col1 = list_by_col[0]
+                        col1.insert(0, list_by_row[0][0])
+                        col2 = list_by_col[1]
+                        col2.insert(0, list_by_row[0][1])
+                        create_scatterplot(col1, col2) 
+                        create_scatterplot(col2, col1)
+                    else:
+                        print("whoops")
             cleartmp()
             decisionmaker(list_of_lists_as_columns, list_of_lists_as_rows)
         return http.server.SimpleHTTPRequestHandler.do_GET(self)
