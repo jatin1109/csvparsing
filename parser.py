@@ -73,6 +73,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             def create_histogram(col):
                 x_label = col[0]
                 x_values = col[1:]
+                global no_of_graphs
                 no_of_graphs += 1
                 plt.hist(x_values)
                 plt.xlabel(x_label)
@@ -81,6 +82,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             def create_bargraph(col):
                 x_label = col[0]
                 x_values1 = col[1:]
+                global no_of_graphs
                 no_of_graphs += 1
                 frequency = []
                 x_values = []
