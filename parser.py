@@ -7,6 +7,7 @@ import re
 import urllib.parse
 import shutil
 import os
+from numpy.polynomial.polynomial import polyfit
 
 path = ""
 PORT = 8080
@@ -91,9 +92,22 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         frequency.append(x_values1.count(n))
                         x_values.append(n)
                 x_count = len(x_values)
-                plt.bar(range(x_count), frequency)
+                plt.bar(range(x_count), frequency, width = 0.5)
                 plt.xlabel(x_values)
                 plt.ylabel(x_label)
+                plt.savefig('tmp\image' + no_of_graphs + '.png')
+                
+            def create_scatterplot(col1, col2):
+                x_label = col1[0]
+                x_values = col1[1:]
+                y_label = col2[0]
+                y_values = col2[1:]
+                no_of_graphs += 1
+                #b,m = polyfit(x_values, y_values, 1)
+                plt.scatter(x_values, y_values)
+                #plt.plot(x_values, b + m*x_values)
+                plt.xlabel(x_label)
+                plt.ylabel(y_label)
                 plt.savefig('tmp\image' + no_of_graphs + '.png')
 
             # decisionmaker
