@@ -99,11 +99,16 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
             def decisionmaker(list_by_col, list_by_row):
                 cols_num = len(list_by_col)
+
                 if cols_num == 1:
                     if columnanalyser(list_by_col[0]) == "ints" or "floats":
-                        create_histogram(list_by_col[0], list_by_row[0][0])
+                        col = list_by_col[0]
+                        col.insert(0, list_by_row[0][0])
+                        create_histogram(col)
                     elif columnanalyser(list_by_col[0]) == "strings":
-                        create_bargraph(list_by_col[0], list_by_row[0][0])
+                        col = list_by_col[0]
+                        col.insert(0, list_by_row[0][0]) 
+                        create_bargraph(col)
                     else:
                         print("shit")
 
