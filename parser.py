@@ -63,6 +63,25 @@ while(path==""):
     print(list_of_lists_as_rows)
     print(list_of_lists_as_columns)
     
+    
+    #graphmaker
+    def create_histogram(col, labell):
+        plt.hist(col)
+        plt.xlabel(labell)
+        plt.show()
+
+    def create_bargraph(col, labell):
+        frequency = []
+        x_values = []
+        for n in col:
+            if n not in x_values:
+                frequency.append(col.count(n))
+                x_values.append(n)
+        x_count = len(x_values)
+        plt.bar(range(x_count), frequency)
+        plt.xlabel(x_values)
+        plt.show()
+
     #decisionmaker
     
     def columnanalyser(col):
