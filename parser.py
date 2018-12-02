@@ -68,7 +68,7 @@ while(path==""):
     def create_histogram(col, labell):
         plt.hist(col)
         plt.xlabel(labell)
-        plt.savefig('plot.png')
+        plt.savefig('tmp\image.png')
 
     def create_bargraph(col, labell):
         frequency = []
@@ -80,7 +80,7 @@ while(path==""):
         x_count = len(x_values)
         plt.bar(range(x_count), frequency)
         plt.xlabel(x_values)
-        plt.savefig('Plot2.png')
+        plt.savefig('tmp\image.png')
 
 
     #decisionmaker
