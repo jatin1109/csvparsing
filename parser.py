@@ -30,6 +30,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             file = csv.reader(open(path))
             list_of_lists_as_rows = []
             list_of_lists_as_columns = []
+            
+            no_of_graphs = 0
+            
             no_of_columns = 0
             for row in file:
                 row1 = row
@@ -57,11 +60,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
             # graphmaker
             def create_histogram(col, labell):
+                no_of_graphs += 1
                 plt.hist(col)
                 plt.xlabel(labell)
-                plt.savefig('tmp\image.png')
+                plt.savefig('tmp\image' + no_of_graphs + '.png')
 
             def create_bargraph(col, labell):
+                no_of_graphs += 1
                 frequency = []
                 x_values = []
                 for n in col:
@@ -71,7 +76,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 x_count = len(x_values)
                 plt.bar(range(x_count), frequency)
                 plt.xlabel(x_values)
-                plt.savefig('tmp\image.png')
+                plt.savefig('tmp\image' + no_of_graphs + '.png')
 
             # decisionmaker
 
